@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="display-6 align-text-center"> Welcome, {{ user.username }}! </h1>
+
+<div>
+    {% if user %}
+    <p> Your email: {{ user.email }} </p>
+    <p> First Name: {{ user.first_name }} </p>
+    <p> Last Name: {{ user.last_name }} </p>
+    <h5> Feedback: </h5>
+
+        {% for fb in feedback %}
+        <div class="card my-4" style="max-height: 200px; width: 600px; overflow-y: auto;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted"> Date </h6>
+                <h5 class="card-title text-info"> {{ fb.title }}: </h5>
+                <form style="display:inline" 
+                      action="{{ url_for('delete_feedback', feedback_id=fb.id) }}" 
+                      method="POST">
+                    <p class="card-text"> {{ fb.content }} </p>
+
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="btn-group ml-auto">
+                            <a href="{{ url_for('update_feedback', feedback_id=fb.id) }}"> Edit/Update</a>
+                            <button class="btn btn-sm btn-danger"> Delete </button>
+                        </div>
+                    </div> 
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+        
+        <a href="{{ url_for('add_feedback', username=user.username) }}">Add Feedback</a>
+        <form method='POST' action="{{ url_for('delete_user', username=session.username) }}">
+            <button type="submit" class="btn btn-sm btn-danger"> Delete Profile</button>
+        </form>
+        <br>
+        {% else %}
+        <p> User information not available </p>
+    {% endif %}
+    
+</div>
+
+{% endblock %}

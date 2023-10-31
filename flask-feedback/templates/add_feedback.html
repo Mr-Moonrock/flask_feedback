@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h4 class="display-4 align-text-center"> Add Feedback </h4>
+<p class="lead">Provide your feedback below:</p>
+
+<form method="POST" action="{{ url_for('add_feedback', username=username)}}">
+    {{ form.hidden_tag() }}
+    {% for field in form %}
+        <p>
+            {{ field.label }}
+            {{ field(class_="form-control") }}
+            {% for error in field.errors %}
+                <span class="form-text text-danger">{{ error }}</span>
+            {% endfor %}
+        </p>
+    {% endfor %}
+    <button class="btn btn-success" type="submit">Add Feedback</button>
+    
+</form>
+
+{% endblock %}
